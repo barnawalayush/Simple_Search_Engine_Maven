@@ -47,6 +47,7 @@
                             <version>1.12.0</version>
                         </plugin>
                     </plugins>
+                    <excludeFilterFile>exclude-spotbugs-plugin.xml</excludeFilterFile>
                 </configuration>
                 <executions>
                     <execution>
@@ -91,7 +92,9 @@
                             <version>1.12.0</version>
                         </plugin>
                     </plugins>
+                    <excludeFilterFile>exclude-spotbugs-plugin.xml</excludeFilterFile>
                 </configuration>
+
             </plugin>
         </plugins>
     </reporting>
