@@ -165,17 +165,4 @@ public final class Main {
         }
     }
 
-//    /**
-//     * Method to validate input file nameMethod to validate input file name
-//     */
-//    private static String validateInput(String inputFileName) {
-//        // Check if inputFileName contains path traversal characters
-//        if (inputFileName.contains("../")) {
-//            // Reject file name if it contains path traversal characters
-//            return null;
-//        }
-//        // Return validated file name
-//        return inputFileName;
-//    }
-
 }

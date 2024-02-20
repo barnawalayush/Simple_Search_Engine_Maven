@@ -19,6 +19,8 @@
 
     <build>
         <plugins>
+
+            <!--  CHECKSTYLE PLUGIN  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -31,6 +33,8 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!--  SPOTBUGS PLUGIN  -->
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
@@ -59,16 +63,22 @@
 
     <reporting>
         <plugins>
+
+            <!--  CHECKSTYLE PLUGIN  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>${checkstyle-maven-plugin.version}</version>
             </plugin>
+
+            <!--  PMD PLUGIN  -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>${maven-pmd-plugin.version}</version>
             </plugin>
+
+            <!--  SPOTBUGS PLUGIN  -->
             <plugin>
                 <groupId>com.github.spotbugs</groupId>
                 <artifactId>spotbugs-maven-plugin</artifactId>
