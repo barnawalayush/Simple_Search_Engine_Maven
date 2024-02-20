@@ -3,6 +3,7 @@ package org.search;
 import org.search.Utils.OptionSelected;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -53,7 +54,7 @@ public final class Main {
      */
         Map<String, ArrayList<Integer>> wordToLineNumber = new HashMap<>();
 
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in, "UTF-8");
 
 
         String inputFileName = null;
@@ -63,13 +64,23 @@ public final class Main {
             }
         }
 
+        if (inputFileName.contains("../")) {
+            System.out.println("Invalid file name");
+            return;
+        }
 
 //    ***********   Array list contains all line   ***********
         ArrayList<String> listOfPeople = new ArrayList<>();
 
         try {
+
+            if (inputFileName.contains("../")) {
+                System.out.println("Invalid file name");
+                return;
+            }
+
             String content = new String(Files.readAllBytes(Paths
-                    .get(inputFileName)));
+                    .get(inputFileName)), StandardCharsets.UTF_8);
             String[] allPeople = content.split("\n");
 
             for (int i = 0; i < allPeople.length; i++) {
@@ -153,5 +164,18 @@ public final class Main {
             System.out.println(onePersonDetail);
         }
     }
+
+//    /**
+//     * Method to validate input file nameMethod to validate input file name
+//     */
+//    private static String validateInput(String inputFileName) {
+//        // Check if inputFileName contains path traversal characters
+//        if (inputFileName.contains("../")) {
+//            // Reject file name if it contains path traversal characters
+//            return null;
+//        }
+//        // Return validated file name
+//        return inputFileName;
+//    }
 
 }

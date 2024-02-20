@@ -54,10 +54,11 @@ public class FindAll implements FindStrategy {
             }
         }
 
-        for (int key : mappingOfLines.keySet()) {
-            int numberOfOccurrence = mappingOfLines.get(key);
+        for (Map.Entry<Integer, Integer> entry : mappingOfLines.entrySet()) {
+            int lineNumber = entry.getKey();
+            int numberOfOccurrence = entry.getValue();
             if (numberOfOccurrence == totalWord) {
-                System.out.println(listOfPeople.get(key));
+                System.out.println(listOfPeople.get(lineNumber));
             }
         }
     }
