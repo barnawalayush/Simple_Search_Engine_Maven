@@ -94,7 +94,6 @@
                     </plugins>
                     <excludeFilterFile>exclude-spotbugs-plugin.xml</excludeFilterFile>
                 </configuration>
-
             </plugin>
         </plugins>
     </reporting>
