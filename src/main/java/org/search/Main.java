@@ -1,4 +1,4 @@
-package search;
+package org.search;
 
 import java.awt.image.AreaAveragingScaleFilter;
 import java.io.File;
