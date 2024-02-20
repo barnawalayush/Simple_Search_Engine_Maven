@@ -2,7 +2,6 @@ package org.search.Strategy;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -27,8 +26,6 @@ public class FindAll implements FindStrategy {
                            final ArrayList<String> listOfPeople,
                      final Scanner sc, final Map<String,
             ArrayList<Integer>> wordToLineNumber) {
-
-        HashSet<Integer> setOfLines = new HashSet<>();
 
         HashMap<Integer, Integer> mappingOfLines = new HashMap<>();
 
@@ -63,7 +60,5 @@ public class FindAll implements FindStrategy {
                 System.out.println(listOfPeople.get(key));
             }
         }
-
-        return;
     }
 }

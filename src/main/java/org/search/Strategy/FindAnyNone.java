@@ -63,8 +63,5 @@ public class FindAnyNone implements FindStrategy {
                 System.out.println(listOfPeople.get(lineNumber));
             }
         }
-
-        return;
-
     }
 }
