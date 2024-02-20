@@ -1,42 +1,67 @@
 package org.search.Strategy;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.HashMap;
 
+/**
+ * The FindAll class implements the FindStrategy interface and
+ * provides a strategy for finding people's names
+ * based on a specified search strategy.
+ */
 public class FindAll implements FindStrategy {
 
+    /**
+     * Finds people's names based on a specified search strategy.
+     *
+     * @param strategy The search strategy to use ("ALL").
+     * @param listOfPeople The list of people's names to search in.
+     * @param sc The Scanner to use for input.
+     * @param wordToLineNumber The map of words to line numbers.
+     */
     @Override
-    public void find(String strategy, ArrayList<String> listOfPeople, Scanner sc, Map<String, ArrayList<Integer>> wordToLineNumber) {
+    public final void find(final String strategy,
+                           final ArrayList<String> listOfPeople,
+                     final Scanner sc, final Map<String,
+            ArrayList<Integer>> wordToLineNumber) {
 
         HashSet<Integer> setOfLines = new HashSet<>();
 
         HashMap<Integer, Integer> mappingOfLines = new HashMap<>();
 
-        System.out.println("Enter a name or email to search all suitable people.");
+        System.out.println("Enter a name or email "
+                + "to search all suitable people.");
         String wordsToSearch = sc.nextLine();
 
         String[] listOfWordsToSearch = wordsToSearch.split(" ");
 
-        int total_word = listOfWordsToSearch.length;
+        int totalWord = listOfWordsToSearch.length;
 
-        for (String word_to_search : listOfWordsToSearch) {
-            if (wordToLineNumber.get(word_to_search.toLowerCase()) == null) {
+        for (String wordToSearch : listOfWordsToSearch) {
+            if (wordToLineNumber.get(wordToSearch.toLowerCase()) == null) {
                 System.out.println("No matching people found");
                 return;
             }
-            List<Integer> list_of_line_no_having_word = wordToLineNumber.get(word_to_search.toLowerCase());
-            for (int line_number : list_of_line_no_having_word) {
-                if (mappingOfLines.get(line_number) == null) {
-                    mappingOfLines.put(line_number, 1);
+            List<Integer> listOfLineNoHavingWord = wordToLineNumber
+                    .get(wordToSearch.toLowerCase());
+            for (int lineNumber : listOfLineNoHavingWord) {
+                if (mappingOfLines.get(lineNumber) == null) {
+                    mappingOfLines.put(lineNumber, 1);
                 } else {
-                    int x = mappingOfLines.get(line_number);
-                    mappingOfLines.put(line_number, x + 1);
+                    int x = mappingOfLines.get(lineNumber);
+                    mappingOfLines.put(lineNumber, x + 1);
                 }
             }
         }
 
         for (int key : mappingOfLines.keySet()) {
             int numberOfOccurrence = mappingOfLines.get(key);
-            if (numberOfOccurrence == total_word) System.out.println(listOfPeople.get(key));
+            if (numberOfOccurrence == totalWord) {
+                System.out.println(listOfPeople.get(key));
+            }
         }
 
         return;

@@ -18,10 +18,10 @@ public class ComputeSearch {
 
     /**
      * Constructs a new ComputeSearch object with the specified FindStrategy.
-     * @param findStrategy The FindStrategy to use for searches.
+     * @param val The FindStrategy to use for searches.
      */
-    public ComputeSearch(final FindStrategy findStrategy) {
-        this.findStrategy = findStrategy;
+    public ComputeSearch(final FindStrategy val) {
+        this.findStrategy = val;
     }
 
     /**

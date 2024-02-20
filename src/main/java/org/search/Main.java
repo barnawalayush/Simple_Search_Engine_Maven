@@ -1,51 +1,89 @@
 package org.search;
 
-import java.awt.image.AreaAveragingScaleFilter;
-import java.io.File;
-import java.io.FileNotFoundException;
+import org.search.Utils.OptionSelected;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.InputMismatchException;
 
-public class Main {
+/**
+ * The Main class is the entry point for the application.
+ * It provides a menu-driven interface for searching and
+ * printing people's names based on a specified search strategy.
+ */
+public final class Main {
 
+    /**
+     * constructor.
+     */
+    private Main() {
+
+    }
+
+    /**
+     * The exit field is used to control the main loop of the application. I
+     * t is set to "1" initially and is set to "0"
+     * when the user selects the "Exit" option.
+     */
     private static String exit = "1";
-    private static int option_selected = -1;
+    /**
+     * The option_selected field is used to store the user's selected
+     * option from the menu. It is set to -1 initially
+     * and is updated when the user selects an option.
+     */
+    private static int optionSelected = -1;
 
-    public static void main(String[] args) {
+    /**
+     * The main method is the entry point for the application.
+     * It initializes the necessary data structures,
+     * reads data from a file, and provides a menu-driven
+     * interface for searching and printing people's names.
+     * @param args The command-line arguments.
+     */
 
-// ***********   Mapping of words to line number in which they are occurring   ***********
-        Map<String, ArrayList<Integer>> word_to_line_number = new HashMap<>();
+    public static void main(final String[] args) {
+
+     /**
+     * Mapping of words to line number in which they are occurring
+     */
+        Map<String, ArrayList<Integer>> wordToLineNumber = new HashMap<>();
 
         Scanner sc = new Scanner(System.in);
 
 
-        String input_file_name = null;
+        String inputFileName = null;
         for (int i = 0; i < args.length; i = i + 2) {
             if (args[i].equals("--data")) {
-                input_file_name = args[i + 1];
+                inputFileName = args[i + 1];
             }
         }
 
 
 //    ***********   Array list contains all line   ***********
-        ArrayList<String> list_of_people = new ArrayList<>();
+        ArrayList<String> listOfPeople = new ArrayList<>();
 
         try {
-            String content = new String(Files.readAllBytes(Paths.get(input_file_name)));
-            String[] all_people = content.split("\n");
+            String content = new String(Files.readAllBytes(Paths
+                    .get(inputFileName)));
+            String[] allPeople = content.split("\n");
 
-            for (int i = 0; i < all_people.length; i++) {
-                list_of_people.add(all_people[i]);
+            for (int i = 0; i < allPeople.length; i++) {
+                listOfPeople.add(allPeople[i]);
 
-                String[] each_word = all_people[i].split(" ");
+                String[] eachWord = allPeople[i].split(" ");
 
-                for (String word : each_word) {
-                    if (word_to_line_number.get(word.toLowerCase()) == null) {
-                        word_to_line_number.put(word.toLowerCase(), new ArrayList<>());
+                for (String word : eachWord) {
+                    if (wordToLineNumber.get(word.
+                            toLowerCase()) == null) {
+                        wordToLineNumber.put(word.toLowerCase(),
+                                new ArrayList<>());
                     }
-                    word_to_line_number.get(word.toLowerCase()).add(i);
+                    wordToLineNumber.get(word.toLowerCase()).add(i);
                 }
 
             }
@@ -62,7 +100,7 @@ public class Main {
 
             while (true) {
                 try {
-                    option_selected = sc.nextInt();
+                    optionSelected = sc.nextInt();
                     sc.nextLine();
                     break;
                 } catch (InputMismatchException e) {
@@ -71,27 +109,32 @@ public class Main {
                 }
             }
 
-            if (option_selected >= 3 || option_selected < 0) {
+            if (optionSelected >= OptionSelected.OPTION4.getOption()
+                    || optionSelected < 0) {
                 System.out.println("Incorrect option! Try again.");
                 continue;
-            } else if (option_selected == 1) {
-                System.out.println("Select a matching strategy: ALL, ANY, NONE");
+            } else if (optionSelected == 1) {
+                System.out.println("Select a matching strategy: "
+                        + "ALL, ANY, NONE");
 
-                String strategy_selected = sc.nextLine();
+                String strategySelected = sc.nextLine();
 
                 ComputeSearch computeSearch;
-                if (strategy_selected.equals("ALL")) {
+                if (strategySelected.equals("ALL")) {
                     computeSearch = new AllWords();
-                    computeSearch.find("ALL", list_of_people, sc, word_to_line_number);
-                } else if (strategy_selected.equals("ANY")) {
+                    computeSearch.find("ALL", listOfPeople,
+                            sc, wordToLineNumber);
+                } else if (strategySelected.equals("ANY")) {
                     computeSearch = new AnyOrNoneWords();
-                    computeSearch.find("ANY", list_of_people, sc, word_to_line_number);
+                    computeSearch.find("ANY", listOfPeople,
+                            sc, wordToLineNumber);
                 } else {
                     computeSearch = new AnyOrNoneWords();
-                    computeSearch.find("NONE", list_of_people, sc, word_to_line_number);
+                    computeSearch.find("NONE", listOfPeople,
+                            sc, wordToLineNumber);
                 }
-            } else if (option_selected == 2) {
-                print_all_people(list_of_people);
+            } else if (optionSelected == 2) {
+                printAllPeople(listOfPeople);
             } else {
                 System.out.println("Bye!");
                 exit = "0";
@@ -100,11 +143,14 @@ public class Main {
 
     }
 
+    /**
+     * Prints all people's names in the list.
+     * @param listOfPeople The list of people's names to print.
+     */
+    private static void printAllPeople(final ArrayList<String> listOfPeople) {
 
-    private static void print_all_people(ArrayList<String> list_of_people) {
-
-        for (String one_person_detail : list_of_people) {
-            System.out.println(one_person_detail);
+        for (String onePersonDetail : listOfPeople) {
+            System.out.println(onePersonDetail);
         }
     }
 
