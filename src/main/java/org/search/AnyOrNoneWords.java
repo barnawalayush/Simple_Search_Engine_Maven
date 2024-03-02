@@ -1,7 +1,7 @@
-package search;
+package org.search;
 
-import search.Strategy.FindAnyNone;
-import search.Strategy.FindStrategy;
+import org.search.Strategy.FindAnyNone;
+import org.search.Strategy.FindStrategy;
 
 public class AnyOrNoneWords extends ComputeSearch {
 

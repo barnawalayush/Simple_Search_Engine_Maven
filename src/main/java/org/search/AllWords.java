@@ -1,7 +1,7 @@
-package search;
+package org.search;
 
-import search.Strategy.FindAll;
-import search.Strategy.FindStrategy;
+import org.search.Strategy.FindAll;
+import org.search.Strategy.FindStrategy;
 
 public class AllWords extends ComputeSearch {
 

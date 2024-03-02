@@ -1,4 +1,4 @@
-package search.Strategy;
+package org.search.Strategy;
 
 import java.util.*;
 

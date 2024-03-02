@@ -1,6 +1,6 @@
-package search;
+package org.search;
 
-import search.Strategy.FindStrategy;
+import org.search.Strategy.FindStrategy;
 
 import java.util.ArrayList;
 import java.util.Map;
