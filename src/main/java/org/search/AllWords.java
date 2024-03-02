@@ -9,13 +9,17 @@ import org.search.Strategy.FindAll;
  */
 public class AllWords extends ComputeSearch {
 
+    private boolean constructorCalled = false;
     /**
      * Constructs a new AllWords object with the FindAll strategy.
      */
     AllWords() {
         super(new FindAll());
+        constructorCalled = true;
     }
 
-    //hello hello ayush here
+    public boolean isCalled(){
+        return constructorCalled;
+    }
 
 }

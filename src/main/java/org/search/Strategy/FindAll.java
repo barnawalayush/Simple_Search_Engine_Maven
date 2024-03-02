@@ -27,20 +27,37 @@ public class FindAll implements FindStrategy {
                      final Scanner sc, final Map<String,
             ArrayList<Integer>> wordToLineNumber) {
 
+        print();
+
+//        String wordsToSearch = sc.nextLine();
+
+//        String[] listOfWordsToSearch = wordsToSearchMethod(sc.nextLine());
+
+        HashMap<Integer, Integer> mappingOfLines = mappingOfLinesMethod(wordsToSearchMethod(sc.nextLine()), wordToLineNumber);
+
+        output(mappingOfLines, wordsToSearchMethod(sc.nextLine()), listOfPeople);
+    }
+
+    public void output(HashMap<Integer, Integer> mappingOfLines,
+                       String[] listOfWordsToSearch, ArrayList<String> listOfPeople) {
+        for (Map.Entry<Integer, Integer> entry : mappingOfLines.entrySet()) {
+            int lineNumber = entry.getKey();
+            int numberOfOccurrence = entry.getValue();
+            if (numberOfOccurrence == listOfWordsToSearch.length) {
+                System.out.println(listOfPeople.get(lineNumber));
+            }
+        }
+    }
+
+    public HashMap<Integer, Integer> mappingOfLinesMethod(String[] listOfWordsToSearch, Map<String,
+            ArrayList<Integer>> wordToLineNumber) {
+
         HashMap<Integer, Integer> mappingOfLines = new HashMap<>();
-
-        System.out.println("Enter a name or email "
-                + "to search all suitable people.");
-        String wordsToSearch = sc.nextLine();
-
-        String[] listOfWordsToSearch = wordsToSearch.split(" ");
-
-        int totalWord = listOfWordsToSearch.length;
 
         for (String wordToSearch : listOfWordsToSearch) {
             if (wordToLineNumber.get(wordToSearch.toLowerCase()) == null) {
                 System.out.println("No matching people found");
-                return;
+                return null;
             }
             List<Integer> listOfLineNoHavingWord = wordToLineNumber
                     .get(wordToSearch.toLowerCase());
@@ -54,12 +71,17 @@ public class FindAll implements FindStrategy {
             }
         }
 
-        for (Map.Entry<Integer, Integer> entry : mappingOfLines.entrySet()) {
-            int lineNumber = entry.getKey();
-            int numberOfOccurrence = entry.getValue();
-            if (numberOfOccurrence == totalWord) {
-                System.out.println(listOfPeople.get(lineNumber));
-            }
-        }
+        return mappingOfLines;
     }
+
+    public String[] wordsToSearchMethod(String wordsToSearch) {
+        return wordsToSearch.split(" ");
+    }
+
+    public void print() {
+        System.out.println("Enter a name or email "
+                + "to search all suitable people.");
+    }
+
+
 }

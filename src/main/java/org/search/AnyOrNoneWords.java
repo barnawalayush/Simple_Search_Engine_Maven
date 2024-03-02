@@ -10,11 +10,18 @@ import org.search.Strategy.FindAnyNone;
 
 public class AnyOrNoneWords extends ComputeSearch {
 
+    private boolean constructorCalled = false;
+
     /**
      * Constructs a new AnyOrNoneWords object with the FindAnyNone strategy.
      */
     AnyOrNoneWords() {
         super(new FindAnyNone());
+        constructorCalled = true;
+    }
+
+    public boolean isCalled(){
+        return constructorCalled;
     }
 
 }

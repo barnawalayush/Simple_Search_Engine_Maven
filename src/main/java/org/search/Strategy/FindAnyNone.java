@@ -28,28 +28,21 @@ public class FindAnyNone implements FindStrategy {
                            final Scanner sc, final Map<String,
             ArrayList<Integer>> wordToLineNumber) {
 
-        int totalPeople = listOfPeople.size();
+        print();
 
-        HashSet<Integer> setOfLines = new HashSet<>();
-
-        System.out.println("Enter a name or email to "
-                + "search all suitable people.");
         String wordsToSearch = sc.nextLine();
 
-        String[] listOfWordsToSearch = wordsToSearch.split(" ");
+//        String[] listOfWordsToSearch = wordsToSearch.split(" ");
 
-        for (String wordToSearch : listOfWordsToSearch) {
-            if (wordToLineNumber.get(wordToSearch.toLowerCase()) != null) {
-                List<Integer> listOfLineNumberHavingWord = wordToLineNumber
-                        .get(wordToSearch.toLowerCase());
-                for (int lineNumber : listOfLineNumberHavingWord) {
-                    setOfLines.add(lineNumber);
-                }
-            }
-        }
+        HashSet<Integer> setOfLines = getSetOfLines(wordsToSearch.split(" "), wordToLineNumber);
+
+        output(strategy, listOfPeople, setOfLines);
+    }
+
+    public void output(String strategy, ArrayList<String> listOfPeople, HashSet<Integer> setOfLines) {
 
         if (strategy.equals("NONE")) {
-            for (int i = 0; i < totalPeople; i++) {
+            for (int i = 0; i < listOfPeople.size(); i++) {
                 if (!setOfLines.contains(i)) {
                     System.out.println(listOfPeople.get(i));
                 }
@@ -63,5 +56,29 @@ public class FindAnyNone implements FindStrategy {
                 System.out.println(listOfPeople.get(lineNumber));
             }
         }
+
+    }
+
+    public HashSet<Integer> getSetOfLines(String[] listOfWordsToSearch, Map<String,
+            ArrayList<Integer>> wordToLineNumber) {
+
+        HashSet<Integer> setOfLines = new HashSet<>();
+
+        for (String wordToSearch : listOfWordsToSearch) {
+            if (wordToLineNumber.get(wordToSearch.toLowerCase()) != null) {
+                List<Integer> listOfLineNumberHavingWord = wordToLineNumber
+                        .get(wordToSearch.toLowerCase());
+                for (int lineNumber : listOfLineNumberHavingWord) {
+                    setOfLines.add(lineNumber);
+                }
+            }
+        }
+
+        return  setOfLines;
+    }
+
+    public void print() {
+        System.out.println("Enter a name or email to "
+                + "search all suitable people.");
     }
 }

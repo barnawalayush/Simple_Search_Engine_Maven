@@ -15,12 +15,14 @@ public class ComputeSearch {
      * Interface reference type.
      */
     private final FindStrategy findStrategy;
+    private boolean isCalled = false;
 
     /**
      * Constructs a new ComputeSearch object with the specified FindStrategy.
      * @param val The FindStrategy to use for searches.
      */
     public ComputeSearch(final FindStrategy val) {
+        isCalled = true;
         this.findStrategy = val;
     }
 
@@ -35,7 +37,12 @@ public class ComputeSearch {
                      final ArrayList<String> listOfPeople,
                      final Scanner sc, final Map<String,
                      ArrayList<Integer>> wordToLineNumber) {
+
         findStrategy.find(strategy, listOfPeople, sc, wordToLineNumber);
+    }
+
+    public boolean isGetCalled(){
+        return isCalled;
     }
 
 }

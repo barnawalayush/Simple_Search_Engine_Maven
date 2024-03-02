@@ -47,118 +47,142 @@ public final class Main {
      * @param args The command-line arguments.
      */
 
-    public static void main(final String[] args) {
-
-     /**
-     * Mapping of words to line number in which they are occurring
-     */
-        Map<String, ArrayList<Integer>> wordToLineNumber = new HashMap<>();
+    public static void main(final String[] args) throws IOException{
 
         Scanner sc = new Scanner(System.in, "UTF-8");
 
-
-        String inputFileName = null;
-        for (int i = 0; i < args.length; i = i + 2) {
-            if (args[i].equals("--data")) {
-                inputFileName = args[i + 1];
-            }
-        }
-
-        if (inputFileName.contains("../")) {
-            System.out.println("Invalid file name");
-            return;
-        }
+        String inputFileName = getFileName(args);
 
 //    ***********   Array list contains all line   ***********
         ArrayList<String> listOfPeople = new ArrayList<>();
 
-        try {
+        String content = readFile(inputFileName);
 
-            if (inputFileName.contains("../")) {
-                System.out.println("Invalid file name");
-                return;
-            }
+//        String[] allPeople = content.split("\n");
 
-            String content = new String(Files.readAllBytes(Paths
-                    .get(inputFileName)), StandardCharsets.UTF_8);
-            String[] allPeople = content.split("\n");
+        /**
+         * Mapping of words to line number in which they are occurring
+         */
+        Map<String, ArrayList<Integer>> wordToLineNumber = wordToLineNumberMethod(content.split("\n"), listOfPeople);
 
-            for (int i = 0; i < allPeople.length; i++) {
-                listOfPeople.add(allPeople[i]);
-
-                String[] eachWord = allPeople[i].split(" ");
-
-                for (String word : eachWord) {
-                    if (wordToLineNumber.get(word.
-                            toLowerCase()) == null) {
-                        wordToLineNumber.put(word.toLowerCase(),
-                                new ArrayList<>());
-                    }
-                    wordToLineNumber.get(word.toLowerCase()).add(i);
-                }
-
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         while (!exit.equals("0")) {
 
-            System.out.println("=== Menu ===");
-            System.out.println("1. Find a person");
-            System.out.println("2. Print all people");
-            System.out.println("0. Exit");
+            printMenu();
 
-            while (true) {
-                try {
-                    optionSelected = sc.nextInt();
-                    sc.nextLine();
-                    break;
-                } catch (InputMismatchException e) {
-                    System.out.print("Please enter number among 0,1,2: ");
-                    continue;
-                }
+            optionSelected = getOption();
+
+            exit = execute(optionSelected, listOfPeople, wordToLineNumber);
+        }
+
+    }
+
+    public static String getFileName(String[] args) {
+        for (int i = 0; i < args.length; i = i + 2) {
+            if (args[i].equals("--data")) {
+                return args[i + 1];
             }
+        }
+        return null;
+    }
 
-            if (optionSelected >= OptionSelected.OPTION4.getOption()
-                    || optionSelected < 0) {
-                System.out.println("Incorrect option! Try again.");
-                continue;
-            } else if (optionSelected == 1) {
-                System.out.println("Select a matching strategy: "
-                        + "ALL, ANY, NONE");
+    public static String execute(int optionSelected,
+                                ArrayList<String> listOfPeople, Map<String, ArrayList<Integer>> wordToLineNumber) {
 
-                String strategySelected = sc.nextLine();
+        Scanner sc = new Scanner(System.in);
 
-                ComputeSearch computeSearch;
-                if (strategySelected.equals("ALL")) {
-                    computeSearch = new AllWords();
-                    computeSearch.find("ALL", listOfPeople,
-                            sc, wordToLineNumber);
-                } else if (strategySelected.equals("ANY")) {
-                    computeSearch = new AnyOrNoneWords();
-                    computeSearch.find("ANY", listOfPeople,
-                            sc, wordToLineNumber);
-                } else {
-                    computeSearch = new AnyOrNoneWords();
-                    computeSearch.find("NONE", listOfPeople,
-                            sc, wordToLineNumber);
-                }
-            } else if (optionSelected == 2) {
-                printAllPeople(listOfPeople);
+        if (optionSelected >= OptionSelected.OPTION4.getOption()
+                || optionSelected < 0) {
+            System.out.println("Incorrect option! Try again.");
+            return "1";
+        } else if (optionSelected == 1) {
+            System.out.println("Select a matching strategy: "
+                    + "ALL, ANY, NONE");
+
+            String strategySelected = sc.nextLine();
+
+            ComputeSearch computeSearch;
+            if (strategySelected.equals("ALL")) {
+                computeSearch = new AllWords();
+                computeSearch.find("ALL", listOfPeople,
+                        sc, wordToLineNumber);
+            } else if (strategySelected.equals("ANY")) {
+                computeSearch = new AnyOrNoneWords();
+                computeSearch.find("ANY", listOfPeople,
+                        sc, wordToLineNumber);
             } else {
-                System.out.println("Bye!");
-                exit = "0";
+                computeSearch = new AnyOrNoneWords();
+                computeSearch.find("NONE", listOfPeople,
+                        sc, wordToLineNumber);
+            }
+        } else if (optionSelected == 2) {
+            printAllPeople(listOfPeople);
+        } else {
+            System.out.println("Bye!");
+            return "0";
+        }
+        return "1";  //it means to continue
+    }
+
+    public static int getOption() {
+
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            try {
+                optionSelected = sc.nextInt();
+                //sc.nextLine();
+                return optionSelected;
+            } catch (InputMismatchException e) {
+                System.out.print("Please enter number among 0,1,2: ");
+                //continue;
+                return 9;
             }
         }
 
+    }
+    public static void printMenu() {
+        System.out.println("=== Menu ===");
+        System.out.println("1. Find a person");
+        System.out.println("2. Print all people");
+        System.out.println("0. Exit");
+    }
+
+    public static Map<String, ArrayList<Integer>> wordToLineNumberMethod(String[] allPeople, ArrayList<String> listOfPeople) {
+
+        Map<String, ArrayList<Integer>> wordToLineNumber = new HashMap<>();
+
+        for (int i = 0; i < allPeople.length; i++) {
+            listOfPeople.add(allPeople[i]);
+
+            String[] eachWord = allPeople[i].split(" ");
+
+            for (String word : eachWord) {
+                if (wordToLineNumber.get(word.
+                        toLowerCase()) == null) {
+                    wordToLineNumber.put(word.toLowerCase(),
+                            new ArrayList<>());
+                }
+                wordToLineNumber.get(word.toLowerCase()).add(i);
+            }
+
+        }
+        return wordToLineNumber;
+    }
+
+    public static String readFile(String inputFileName) throws IOException{
+        try {
+            return new String(Files.readAllBytes(Paths
+                    .get(inputFileName)), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new IOException(e);
+        }
     }
 
     /**
      * Prints all people's names in the list.
      * @param listOfPeople The list of people's names to print.
      */
-    private static void printAllPeople(final ArrayList<String> listOfPeople) {
+    public static void printAllPeople(final ArrayList<String> listOfPeople) {
 
         for (String onePersonDetail : listOfPeople) {
             System.out.println(onePersonDetail);
