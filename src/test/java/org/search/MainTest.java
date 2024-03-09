@@ -31,6 +31,7 @@ class MainTest {
     @Test
     void main() {
 
+
     }
 
     @Test
@@ -68,8 +69,9 @@ class MainTest {
         wordToLineNumber.put("rene", new ArrayList<>(List.of(2)));
         wordToLineNumber.put("erick", new ArrayList<>(List.of(3)));
 
-        Main.execute(5, listOfPeople, wordToLineNumber);
+        String s1 = Main.execute(5, listOfPeople, wordToLineNumber);
         assertEquals("Incorrect option! Try again.\n", outputStream.toString());
+        assertEquals("1", s1);
 
         Main.execute(2, listOfPeople, wordToLineNumber);
         assertEquals("Incorrect option! Try again.\nJohn\nDoe\nJane\nSmith\n", outputStream.toString());
@@ -80,6 +82,10 @@ class MainTest {
         String strategySelected = "ALL";
         ByteArrayInputStream inputStream = new ByteArrayInputStream((strategySelected).getBytes(StandardCharsets.UTF_8));
         System.setIn(inputStream);
+
+        String wordToSearch = "John";
+        ByteArrayInputStream inputStream2 = new ByteArrayInputStream(wordToSearch.getBytes(StandardCharsets.UTF_8));
+        System.setIn(inputStream2);
 
         Main.execute(1, listOfPeople, wordToLineNumber);
 
@@ -106,6 +112,10 @@ class MainTest {
         ByteArrayInputStream inputStream = new ByteArrayInputStream((strategySelected).getBytes(StandardCharsets.UTF_8));
         System.setIn(inputStream);
 
+        String wordToSearch = "John";
+        ByteArrayInputStream inputStream2 = new ByteArrayInputStream(wordToSearch.getBytes(StandardCharsets.UTF_8));
+        System.setIn(inputStream2);
+
         Main.execute(1, listOfPeople, wordToLineNumber);
 
         assertEquals("Select a matching strategy: "
@@ -128,10 +138,16 @@ class MainTest {
         wordToLineNumber.put("erick", new ArrayList<>(List.of(3)));
 
         String strategySelected = "NONE";
-        ByteArrayInputStream inputStream = new ByteArrayInputStream((strategySelected).getBytes(StandardCharsets.UTF_8));
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(strategySelected.getBytes(StandardCharsets.UTF_8));
         System.setIn(inputStream);
 
+        String wordToSearch = "John";
+        ByteArrayInputStream inputStream2 = new ByteArrayInputStream(wordToSearch.getBytes(StandardCharsets.UTF_8));
+        System.setIn(inputStream2);
+
         Main.execute(1, listOfPeople, wordToLineNumber);
+
+//        System.out.println(outputStream.toString());
 
         assertEquals("Select a matching strategy: "
                 + "ALL, ANY, NONE\n", outputStream.toString());

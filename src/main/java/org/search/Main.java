@@ -110,7 +110,7 @@ public final class Main {
                 computeSearch = new AnyOrNoneWords();
                 computeSearch.find("ANY", listOfPeople,
                         sc, wordToLineNumber);
-            } else {
+            } else if (strategySelected.equals("NONE")) {
                 computeSearch = new AnyOrNoneWords();
                 computeSearch.find("NONE", listOfPeople,
                         sc, wordToLineNumber);
